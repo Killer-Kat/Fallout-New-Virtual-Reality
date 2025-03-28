@@ -12,7 +12,7 @@ This needs the 3rd party program VorpX to run as it renders the game in virtual 
 You also need to run my python program, FNVR_Tracker, to grab headset and controller poses.
 
 What does this mod do?
-Fallout: New Virtual Reality brings virtual reality motion controls into Fallout: New Vegas. With vanilla VorpX and NV, your gun is strapped to your face and you shoot directly where you look. Using this mod, your weapon will follow your hand and shoot in the direction you're pointing it. You can also point your gun to select NPCs and containers, as well as pick up and move objects. You can also use gestures to open the Pip-Boy, ESC Menu, and select hotkeys. Movement is controller centric rather than HMD centric. Overall, it makes for a more engaging and entertaining New Vegas VR experience.
+Fallout: New Virtual Reality brings virtual reality motion controls into Fallout: New Vegas. With vanilla VorpX and NV, your gun is strapped to your face and you shoot directly where you look. Using this mod, your weapon will follow your hand and shoot in the direction you're pointing it. You can also point your gun to select NPCs and containers, as well as pick up and move objects. You can also use gestures to open the Pip-Boy, ESC Menu. Movement is controller centric rather than HMD centric. Overall, it makes for a more engaging and entertaining New Vegas VR experience.
 
 What quirks does it have?
 Slows down when a lot of aggressive NPCs are attacking you.
