@@ -182,7 +182,7 @@ class SimpleTrackingApp:
                         update_ini(-0.1615, -0.5, 0.1281, 0.0655, 0.041, 0.6291, playerXr, playerYr, -inertiaXr)
 
                     # Controller gesture for opening the pause menu:
-                    distance = calculate_distance_xyz(relative_position.v[0], relative_position.v[1], relative_position.v[2], -0.0863, -0.1652, -0.329)
+                    distance = calculate_distance_xyz(relative_position.v[0], relative_position.v[1], relative_position.v[2], -0.3158, -0.1897, -0.1316)
                     if distance < 0.1:
                         print('Escaoe')
                         keyboard.press('Escape')
