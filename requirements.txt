@@ -1,0 +1,15 @@
+# Fallout: New Virtual Reality (FNVR) gereksinimleri
+
+# Temel kütüphaneler
+openvr==2.5.102       # SteamVR ile iletişim için OpenVR Python binding'leri
+numpy==2.1.2          # Matris ve vektör işlemleri için
+keyboard==0.13.5      # Klavye girişlerini simüle etmek için (Tab, Escape tuşları)
+
+# Not: Aşağıdaki kütüphaneler Python ile birlikte gelir, ayrıca kurulum gerektirmez:
+# - tkinter (GUI için)
+# - configparser (yapılandırma dosyası okuma)
+# - mmap (memory-mapped file iletişimi)
+# - logging (hata yönetimi ve loglama)
+# - threading (çoklu iş parçacığı desteği)
+# - queue (thread-safe iletişim)
+# - json (tercih kaydetme)

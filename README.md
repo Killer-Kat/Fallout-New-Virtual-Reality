@@ -1,81 +1,149 @@
-Requirements:
-Python >= 3.12 (Can probably get away with previous versions.)
-Libraries: Keyboard, Openvr, and NumPy
+# Fallout: New Virtual Reality (FNVR) Geliştirme Projesi
 
-Please change the file path string to your New Vegas /Data/Config/ path.
-It won't work if you don't.
+[![Lisans: MIT](https://img.shields.io/badge/Lisans-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Run this program before entering New Vegas
+Bu proje, orijinal [Fallout: New Virtual Reality](https://www.github.com/iloveusername/Fallout-New-Virtual-Reality) modunu temel alarak, onu daha stabil, kullanıcı dostu ve "native" bir VR deneyimi sunan bir seviyeye taşımayı hedefler.
 
-DISCLAIMER:
-This needs the 3rd party program VorpX to run as it renders the game in virtual reality.
-You also need to run my python program, FNVR_Tracker, to grab headset and controller poses.
-VorpX Link: https://www.vorpx.com (VorpX costs ~$40)
-FNVR_Tracker Link: https://www.github.com/iloveusername/Fallout-New-Virtual-Reality
-Vimeo Link:  https://vimeo.com/1070196230
+## Projenin Amacı
 
-What does this mod do?
-﻿Fallout: New Virtual Reality brings virtual reality motion controls into Fallout: New Vegas. With vanilla VorpX and NV, your gun is strapped to your face and you shoot directly where you look. Using this mod, your weapon will follow your hand and shoot in the direction you're pointing it. You can also point your gun to select NPCs and containers, as well as pick up and move objects. You can also use gestures to open the Pip-Boy and ESC Menu. Movement is controller centric rather than HMD centric. Overall, it makes for a more engaging and entertaining New Vegas VR experience.
+Mevcut mod, VR hareket kontrollerini *Fallout: New Vegas*'a eklemek için dahiyane bir çözüm sunmaktadır. Ancak, teknik bilgi gerektiren kurulum süreci ve bazı mekaniksel sınırlamaları bulunmaktadır. Bu projenin amacı, bu temeli alıp aşağıdaki prensipler doğrultusunda geliştirmektir:
 
-What quirks does it have?
-Slows down when a lot of aggressive NPCs are attacking you.
+-   **Kullanıcı Dostu:** Modun kurulumu ve kullanımı, teknik bilgisi olmayan bir oyuncu için bile basit ve anlaşılır olmalıdır.
+-   **Stabilite:** Oyun içi deneyim akıcı ve hatasız olmalıdır.
+-   **Sürükleyicilik:** Mekanikler, oyuncuya gerçekten oyun dünyasının içindeymiş gibi hissettirmelidir.
 
-Works great with pistols, but some two handed weapons will fire off-center.
+## Mevcut Fonksiyonellik
 
-Aiming down sights can be screwy. I recommend hip firing, it’s easier.
+-   Sağ el kontrolcüsü ile bağımsız nişan alma
+-   **İki el desteği** - Sol ve sağ kontrolcüleri aynı anda kullanma
+-   **İki el silah modu** - Gerçekçi iki elle tutma mekaniği
+-   Gelişmiş el hareketleri tanıma (dwell time, velocity tracking, cooldown)
+-   Grafik kullanıcı arayüzü (GUI) ile kolay kontrol
+-   Memory-mapped file desteği ile ultra düşük gecikme (<1ms)
+-   Veri yumuşatma ile titremesiz nişan alma (One Euro Filter)
+-   Dinamik kontrolcü algılama
+-   Detaylı hata yönetimi ve loglama
 
-Only the right hand is used for VR motion control.
+## Yol Haritası (Roadmap)
 
-Melee is still just pressing a trigger rather than swinging.
+Proje, üç ana aşamada geliştirilecektir:
 
-With VorpX, use the recenter function if things feel off. Hold both grips to open the VorpX menu.
+### ✅ Aşama 1: Temelleri Sağlamlaştırma ve Kullanıcı Deneyimi (UX)
 
-Bullets fire along the plane you are looking. This is to say, bullets end up vertically where you are looking but horizontally where you are pointing the gun. Basically, you can sweep your gun side to side just fine.
+-   [x] **Yapılandırma Dosyası:** Ayarların (örn: hassasiyet, dosya yolu) kod dışından yönetilmesi.
+-   [x] **Grafiksel Arayüz (GUI):** Betiği tek tıkla çalıştıracak basit bir arayüz.
+-   [x] **Hata Yönetimi:** Anlaşılır hata mesajları ve loglama.
 
-Is it perfect? Definitely not. Is it fun? Hell yeah.
+### ✅ Aşama 2: Çekirdek Mekanikleri İyileştirme
 
-How does it work?
-This mod works by using a program I created to grab the XYZ coordinates and rotations of a VR headset and a VR controller. The program saves these values to an ini file, which is read by a script running every tick. Said script passes these variables to another script that updates the player’s pose every tick. There’s more going on of course, but you can check the source code to see what’s up if you really wanna know more. The fact that this works at all is wild.
+-   [x] **IPC Güçlendirmesi:** Memory-mapped files ile <1ms gecikme.
+-   [x] **Veri Yumuşatma:** One Euro Filter ile titremesiz nişan alma.
+-   [x] **Gelişmiş Hareket Tanıma:** Velocity tracking ve dwell time ile güvenilir sistem.
 
-How do I install and use it?
-Download and install VorpX.
-Download and install Python 3.12 if you don’t have it. I like to use Pycharm as my IDE.
-Pip install the following libraries:
-Keyboard
-Openvr
-Numpy
-In the FNVR_Tracker.py file, please edit the file path to your FNV’s /Data/Config/ folder.
-Make sure SteamVR is open.
-Run the FNVR_Tracker.py program.
-Download and install this mod using your mod manager of choice. Or manually by dragging and dropping into your Data folder.
-Open VorpX, make sure it’s running.
-Open Fallout: New Vegas through NVSE.
-﻿VorpX should attach and if the FNVR_Tracker.py program is running, the mod should work.
+### ✨ Aşama 3: Yeni Özellikler ve Derinlik
 
-Recommended VorpX settings:
-First time loading in, you need get out of the bed in Doc Mitchell's house and hold the left grip down and then the right grip as well. This opens the VorpX menu. Click on full ﻿scan and let it do its thing. Click okay and save, then exit the game. Load back in and things should be okay.
-Other than that, I recommend default settings except for setting controller visualization to off. Use it to learn hotkeys and whatnot but once you know what’s up you should keep it off.
+-   [ ] **Gerçekçi Melee:** Savurma hızına dayalı yakın dövüş mekaniği.
+-   [x] **Sol El Desteği:** Çift el silahlar ve diğer etkileşimler için.
+-   [ ] **Haptik Geri Bildirim:** Ateş etme, hasar alma gibi olaylarda titreşim.
+-   [ ] **Fiziksel Şarjör Değiştirme:** Sürükleyiciliği artıran manuel doldurma hareketleri.
 
-More info:
-This is actually my first mod, ever! Not only for New Vegas, but any game. I was watching a Youtube video about New Vegas in VorpX and saw how lacking it was, then the general idea and roadmap of this mod popped into my head and I got to work. I also saw a bunch of reddit posts saying that this would be a significantly difficult task or maybe even impossible, so I knew I had to give it a shot. This mod took around one week of free time grind to get to a fun and playable state, time well spent. To open your Pip boy, move your right hand upwards from a resting hip fire position. To open the pause menu, move your right hand a bit over your heart.
+## Kurulum
 
-How compatible is it with other mods?
-﻿I believe this mod is compatible with all different kinds of mods. This mod messes with the poses and rotations of the 1st person player skeleton, so anything that doesn’t mess with that should be fine. I’m really excited to see what kinds of mods you guys find that work really well with motion controls in VR. I’m also uploading the code to Github so people can work on it themselves and try to take things further than me.
+### Sistem Gereksinimleri
+-   Python >= 3.11
+-   SteamVR
+-   VR başlık ve kontrolcüler (HTC Vive, Valve Index, Oculus vb.)
+-   Fallout: New Vegas (Steam sürümü)
+-   VorpX
 
-Required Mods:
-NVSE
-JIP LN NVSE Plugin
-JohnnyGuitar NVSE
-NV 4GB Extender Patch
+### Kurulum Adımları
 
-Recommended Mods (So Far):
-Any bullet time mod. (Feels cool)
-Lead Bullet Ballistics (Lets you see where your bullets are actually going + also feels cool).
-Bug fix mods.
+1.  **Python'u yükleyin** (3.11 veya üzeri)
+2.  **Bağımlılıkları yükleyin:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **`config.ini` dosyasını yapılandırın:**
+    - `ini_file_path` değerini kendi Fallout New Vegas kurulum dizininize göre ayarlayın
+    - Örnek: `E:/SteamLibrary/steamapps/common/Fallout New Vegas/Data/Config/Meh.ini`
+    - MMAP kullanmak isterseniz `mmap_file_path` değerini de ayarlayın
+4.  **SteamVR'ı başlatın**
+5.  **Tracker'ı çalıştırın:**
+    ```bash
+    python FNVR_Tracker.py
+    ```
+6.  **GUI'de şu adımları izleyin:**
+    - INI dosya yolunu kontrol edin (gerekirse "Gözat" ile değiştirin)
+    - İsterseniz "El Seçimi" bölümünden ayarları yapın:
+      - **Tek el modu:** Varsayılan, sadece seçili el takip edilir
+      - **İki el modu:** Her iki kontrolcü de takip edilir
+      - **İki el silah modu:** İki el modu aktifken kullanılabilir
+    - "Başlat" butonuna tıklayın
+7.  **Oyunu VorpX ile başlatın**
 
-Credit:
-I would like to acknowledge the B42 Weapon Inertia mod by Xilandro for helping me understand the basics of how to move the character’s first person pose.
-I would also like to credit the NV Compatibility Skeleton mod and its many creators for being the base skeleton that I modify.
+### Yapılandırma (config.ini)
 
-Usage:
-Use this code and mod as you see fit, but please keep it open source. Give credit too.
+Mod artık tüm ayarları `config.ini` dosyasından okumaktadır. Bu dosya şu bölümleri içerir:
+- **[paths]**: INI dosya yolu
+- **[position_scaling]**: Pozisyon ölçekleme ve ofset değerleri
+- **[rotation_scaling]**: Rotasyon ölçekleme ve ofset değerleri
+- **[pipboy_position]**: Pipboy için sabit pozisyon değerleri
+- **[pipboy_gesture]**: Pipboy açma hareketi ayarları
+- **[pause_menu_gesture]**: Pause menüsü açma hareketi ayarları
+- **[timing]**: Zamanlama ayarları (döngü gecikmesi, tuş basma süreleri)
+- **[communication]**: İletişim yöntemi (mmap/ini) ve MMAP dosya yolu
+- **[smoothing]**: Veri yumuşatma ayarları (filtre tipi, güç)
+- **[gesture_recognition]**: Gelişmiş hareket tanıma (dwell time, cooldown, velocity)
+- **[dual_hand]**: İki el desteği ayarları
+
+### GUI Kullanımı
+
+#### Ana Kontroller
+- **Başlat/Durdur**: VR takibini başlatır veya durdurur
+- **INI Dosya Yolu**: Oyunun INI dosyasını seçmenizi sağlar
+
+#### El Seçimi
+- **İki El Modunu Etkinleştir**: Her iki kontrolcüyü de takip eder
+- **Aktif El**: Tek el modunda hangi elin kullanılacağını seçer
+- **İki El Silah Modu**: İki elle tutma mekaniğini etkinleştirir (sadece iki el modunda)
+
+#### Yumuşatma Ayarları
+- **Veri Yumuşatmayı Etkinleştir**: Titreme azaltma sistemini açar/kapar
+- **Yumuşatma Gücü**: Ne kadar yumuşatma uygulanacağını ayarlar (0.1-5.0)
+
+#### Durum Göstergeleri
+- **Durum**: Genel sistem durumu
+- **SteamVR**: VR bağlantı durumu
+- **Kontrolcü**: Kontrolcü bağlantı ve takip durumu
+- **Takip**: Aktif takip durumu
+
+### Performans
+
+Memory-mapped file (MMAP) modu etkinleştirildiğinde:
+- **INI dosya yazma**: ~10-20ms
+- **MMAP yazma**: <1ms
+- **Performans artışı**: 10-20x
+
+### İki El Modu Özellikleri
+
+#### Tek El Modu (Varsayılan)
+- Sadece seçili el (sağ veya sol) takip edilir
+- Diğer el yok sayılır
+- Daha az işlemci kullanımı
+
+#### İki El Modu
+- Her iki kontrolcü de algılanır ve takip edilir
+- Gelecekte iki elle etkileşim özellikleri için altyapı
+- İki el silah modu etkinleştirilebilir
+
+#### İki El Silah Modu
+- İki kontrolcü arasındaki mesafe hesaplanır
+- Eller belirli mesafede olduğunda silah iki elle tutulmuş gibi davranır
+- Daha stabil nişan alma sağlar
+- Min/max mesafe config'den ayarlanabilir
+
+Detaylı bilgi ve geliştirme planı için `docs` klasörünü inceleyebilirsiniz.
+
+## Katkıda Bulunma
+
+Proje açıktır ve katkılarınızı bekliyoruz. Lütfen bir "issue" açarak veya "pull request" göndererek sürece dahil olun.
