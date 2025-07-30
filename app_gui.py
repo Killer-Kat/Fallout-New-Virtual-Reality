@@ -7,6 +7,23 @@ import json
 import os
 from tracker_logic import TrackerLogic
 
+class ScrollableFrame(ttk.Frame):
+    def __init__(self, container, *args, **kwargs):
+        super().__init__(container, *args, **kwargs)
+        canvas = tk.Canvas(self, borderwidth=0)
+        scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        self.scrollable_frame = ttk.Frame(canvas)
+
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+
+        canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
 
 class FNVRTrackerGUI:
     """GUI for Fallout New Virtual Reality Tracker"""
@@ -15,7 +32,7 @@ class FNVRTrackerGUI:
         self.root = tk.Tk()
         self.root.title("Fallout: New Virtual Reality Tracker")
         self.root.geometry("600x550")
-        self.root.resizable(False, False)
+        self.root.resizable(True, True)
         
         # Preferences file path
         self.prefs_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'preferences.json')
@@ -57,29 +74,31 @@ class FNVRTrackerGUI:
             with open(self.prefs_file, 'w') as f:
                 json.dump(self.preferences, f, indent=2)
         except Exception as e:
-            self.add_log(f"Tercihler kaydedilemedi: {e}", "error")
+            self.add_log(f"Preferences could not be saved: {e}", "error")
         
     def setup_ui(self):
         """Create the user interface"""
         # Main frame
-        main_frame = ttk.Frame(self.root, padding="10")
-        main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        scrollable = ScrollableFrame(self.root)
+        scrollable.pack(fill="both", expand=True)
+        main_frame = scrollable.scrollable_frame
+        main_frame.configure(padding="10")  # add your padding here
         
         # Title
         title_label = ttk.Label(main_frame, text="FNVR Tracker Control Panel", font=('Arial', 16, 'bold'))
         title_label.grid(row=0, column=0, columnspan=2, pady=10)
         
         # INI File Path frame
-        ini_frame = ttk.LabelFrame(main_frame, text="INI Dosya Yolu", padding="10")
+        ini_frame = ttk.LabelFrame(main_frame, text="INI File Path", padding="10")
         ini_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
         # INI path display
-        self.ini_path_var = tk.StringVar(value=self.tracker.config_variables.get('file_path', 'Seçilmedi'))
+        self.ini_path_var = tk.StringVar(value=self.tracker.config_variables.get('file_path', 'Not selected'))
         ini_path_label = ttk.Label(ini_frame, textvariable=self.ini_path_var, font=('Consolas', 9))
         ini_path_label.grid(row=0, column=0, sticky=(tk.W, tk.E), padx=5)
         
         # Browse button
-        browse_button = ttk.Button(ini_frame, text="Gözat...", command=self.browse_ini_file)
+        browse_button = ttk.Button(ini_frame, text="Browse...", command=self.browse_ini_file)
         browse_button.grid(row=0, column=1, padx=5)
         
         # Configure grid
@@ -92,15 +111,15 @@ class FNVRTrackerGUI:
         # Status labels
         self.status_labels = {}
         status_items = [
-            ("Durum", "status"),
+            ("Status", "status"),
             ("SteamVR", "steamvr"),
-            ("Kontrolcü", "controller"),
-            ("Takip", "tracking")
+            ("Controller", "controller"),
+            ("Tracking", "tracking")
         ]
         
         for i, (label_text, key) in enumerate(status_items):
             ttk.Label(status_frame, text=f"{label_text}:").grid(row=i, column=0, sticky=tk.W, padx=5, pady=2)
-            status_label = ttk.Label(status_frame, text="Bekliyor", foreground="gray")
+            status_label = ttk.Label(status_frame, text="Waiting", foreground="gray")
             status_label.grid(row=i, column=1, sticky=tk.W, padx=5, pady=2)
             self.status_labels[key] = status_label
             
@@ -111,7 +130,7 @@ class FNVRTrackerGUI:
         # Start button
         self.start_button = ttk.Button(
             button_frame, 
-            text="Başlat", 
+            text="Start", 
             command=self.start_tracking,
             style="Accent.TButton"
         )
@@ -120,7 +139,7 @@ class FNVRTrackerGUI:
         # Stop button
         self.stop_button = ttk.Button(
             button_frame, 
-            text="Durdur", 
+            text="Stop", 
             command=self.stop_tracking,
             state="disabled"
         )
@@ -147,14 +166,14 @@ class FNVRTrackerGUI:
         self.log_text.tag_config('error', foreground='red')
         
         # Hand selection frame
-        hand_frame = ttk.LabelFrame(main_frame, text="El Seçimi", padding="10")
+        hand_frame = ttk.LabelFrame(main_frame, text="Hand Pick", padding="10")
         hand_frame.grid(row=5, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
         # Dual hand mode checkbox
         self.dual_hand_var = tk.BooleanVar(value=self.tracker.config_variables.get('dual_hand_enabled', False))
         dual_hand_checkbox = ttk.Checkbutton(
             hand_frame,
-            text="İki El Modunu Etkinleştir",
+            text="Enable Two-Handed Mode",
             variable=self.dual_hand_var,
             command=self.on_dual_hand_toggle
         )
@@ -162,11 +181,11 @@ class FNVRTrackerGUI:
         
         # Hand selection radio buttons
         self.active_hand_var = tk.StringVar(value=self.tracker.config_variables.get('default_hand', 'right'))
-        ttk.Label(hand_frame, text="Aktif El:").grid(row=1, column=0, sticky=tk.W, padx=5)
+        ttk.Label(hand_frame, text="Active Hand:").grid(row=1, column=0, sticky=tk.W, padx=5)
         
         right_radio = ttk.Radiobutton(
             hand_frame,
-            text="Sağ El",
+            text="Right Hand",
             variable=self.active_hand_var,
             value="right",
             command=self.on_hand_change
@@ -175,7 +194,7 @@ class FNVRTrackerGUI:
         
         left_radio = ttk.Radiobutton(
             hand_frame,
-            text="Sol El",
+            text="Left Hand",
             variable=self.active_hand_var,
             value="left",
             command=self.on_hand_change
@@ -186,7 +205,7 @@ class FNVRTrackerGUI:
         self.two_handed_var = tk.BooleanVar(value=self.tracker.config_variables.get('two_handed_weapon_mode', False))
         self.two_handed_checkbox = ttk.Checkbutton(
             hand_frame,
-            text="İki El Silah Modu",
+            text="Two-Handed Weapon Mode",
             variable=self.two_handed_var,
             command=self.on_two_handed_toggle
         )
@@ -197,21 +216,21 @@ class FNVRTrackerGUI:
             self.two_handed_checkbox.config(state="disabled")
         
         # Smoothing controls frame
-        smoothing_frame = ttk.LabelFrame(main_frame, text="Yumuşatma Ayarları", padding="10")
+        smoothing_frame = ttk.LabelFrame(main_frame, text="Smoothing Settings", padding="10")
         smoothing_frame.grid(row=6, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
         # Smoothing enabled checkbox
         self.smoothing_enabled_var = tk.BooleanVar(value=self.tracker.config_variables.get('smoothing_enabled', True))
         smoothing_checkbox = ttk.Checkbutton(
             smoothing_frame,
-            text="Veri Yumuşatmayı Etkinleştir",
+            text="Enable Data Smoothing",
             variable=self.smoothing_enabled_var,
             command=self.on_smoothing_toggle
         )
         smoothing_checkbox.grid(row=0, column=0, columnspan=2, sticky=tk.W, pady=5)
         
         # Smoothing strength slider
-        ttk.Label(smoothing_frame, text="Yumuşatma Gücü:").grid(row=1, column=0, sticky=tk.W, padx=5)
+        ttk.Label(smoothing_frame, text="Softening Power:").grid(row=1, column=0, sticky=tk.W, padx=5)
         self.smoothing_strength_var = tk.DoubleVar(value=self.tracker.config_variables.get('position_min_cutoff', 1.0))
         smoothing_slider = ttk.Scale(
             smoothing_frame,
@@ -231,7 +250,7 @@ class FNVRTrackerGUI:
         # Footer
         footer_label = ttk.Label(
             main_frame, 
-            text="Fallout: New Virtual Reality - VR Hareket Kontrolü", 
+            text="Fallout: New Virtual Reality - VR Motion Control", 
             font=('Arial', 8)
         )
         footer_label.grid(row=7, column=0, columnspan=2, pady=5)
@@ -272,56 +291,56 @@ class FNVRTrackerGUI:
         message_lower = message.lower()
         
         if "openvr initialized" in message_lower:
-            self.status_labels["steamvr"].config(text="Bağlı", foreground="green")
-            self.status_labels["status"].config(text="Hazır", foreground="green")
+            self.status_labels["steamvr"].config(text="Connected", foreground="green")
+            self.status_labels["status"].config(text="Ready", foreground="green")
         elif "openvr init failed" in message_lower:
             self.status_labels["steamvr"].config(text="Bağlanamadı", foreground="red")
-            self.status_labels["status"].config(text="Hata", foreground="red")
+            self.status_labels["status"].config(text="Error", foreground="red")
         elif "tracking started" in message_lower:
-            self.status_labels["tracking"].config(text="Aktif", foreground="green")
+            self.status_labels["tracking"].config(text="Active", foreground="green")
             self.status_labels["status"].config(text="Çalışıyor", foreground="green")
         elif "tracking stopped" in message_lower:
-            self.status_labels["tracking"].config(text="Durduruldu", foreground="gray")
-            self.status_labels["status"].config(text="Durduruldu", foreground="gray")
+            self.status_labels["tracking"].config(text="Stopped", foreground="gray")
+            self.status_labels["status"].config(text="Stopped", foreground="gray")
         elif "hmd not connected" in message_lower:
             self.status_labels["controller"].config(text="HMD Yok", foreground="orange")
         elif "tracking active" in message_lower:
-            self.status_labels["controller"].config(text="Takip Ediliyor", foreground="green")
+            self.status_labels["controller"].config(text="Being Tracked", foreground="green")
         elif "controller found at index" in message_lower:
             # Extract controller index from message
             import re
             match = re.search(r'index (\d+)', message)
             if match:
                 index = match.group(1)
-                self.status_labels["controller"].config(text=f"Kontrolcü {index} Bağlı", foreground="green")
+                self.status_labels["controller"].config(text=f"Controler {index} Connected", foreground="green")
             else:
-                self.status_labels["controller"].config(text="Kontrolcü Bulundu", foreground="green")
+                self.status_labels["controller"].config(text="Controler Found", foreground="green")
         elif "controller not found" in message_lower:
-            self.status_labels["controller"].config(text="Kontrolcü Bulunamadı", foreground="orange")
+            self.status_labels["controller"].config(text="Controler Not Found", foreground="orange")
         elif "controller disconnected" in message_lower:
-            self.status_labels["controller"].config(text="Kontrolcü Bağlantısı Kesildi", foreground="red")
+            self.status_labels["controller"].config(text="Controler Disconnected", foreground="red")
         elif "configuration loaded" in message_lower:
-            self.status_labels["status"].config(text="Yapılandırma Yüklendi", foreground="blue")
+            self.status_labels["status"].config(text="Configuration Loaded", foreground="blue")
         elif "error" in message_lower or level == "error":
-            self.status_labels["status"].config(text="Hata", foreground="red")
+            self.status_labels["status"].config(text="Error", foreground="red")
         elif "config file not found" in message_lower:
-            self.status_labels["status"].config(text="Config Yok (Varsayılan)", foreground="orange")
+            self.status_labels["status"].config(text="No Config (Default)", foreground="orange")
         elif "mmap communication initialized" in message_lower:
-            self.status_labels["status"].config(text="MMAP Aktif", foreground="green")
+            self.status_labels["status"].config(text="MMAP Active", foreground="green")
         elif "mmap performance" in message_lower:
             # Show performance info in log
             pass
         elif "mmap failed" in message_lower:
             if "falling back" in message_lower:
-                self.status_labels["status"].config(text="MMAP Başarısız (INI)", foreground="orange")
+                self.status_labels["status"].config(text="MMAP Failed (INI)", foreground="orange")
             else:
-                self.status_labels["status"].config(text="MMAP Başarısız", foreground="red")
+                self.status_labels["status"].config(text="MMAP Failed", foreground="red")
         elif "using ini file communication" in message_lower:
-            self.status_labels["status"].config(text="INI Modu", foreground="blue")
+            self.status_labels["status"].config(text="INI Mode", foreground="blue")
             
     def start_tracking(self):
         """Start VR tracking"""
-        self.add_log("Takip başlatılıyor...", "info")
+        self.add_log("Starting tracking...", "info")
         
         # Initialize VR
         if self.tracker.init_vr():
@@ -332,11 +351,11 @@ class FNVRTrackerGUI:
             self.start_button.config(state="disabled")
             self.stop_button.config(state="normal")
         else:
-            self.add_log("VR başlatılamadı. SteamVR'ın açık olduğundan emin olun.", "error")
+            self.add_log("VR failed to initialize. Make sure SteamVR is open.", "error")
             
     def stop_tracking(self):
         """Stop VR tracking"""
-        self.add_log("Takip durduruluyor...", "info")
+        self.add_log("Tracking is stopped...", "info")
         
         # Stop tracking
         self.tracker.stop_tracking()
@@ -349,9 +368,9 @@ class FNVRTrackerGUI:
         self.stop_button.config(state="disabled")
         
         # Reset status labels
-        self.status_labels["steamvr"].config(text="Bağlı Değil", foreground="gray")
-        self.status_labels["controller"].config(text="Bekliyor", foreground="gray")
-        self.status_labels["tracking"].config(text="Pasif", foreground="gray")
+        self.status_labels["steamvr"].config(text="Not Connected", foreground="gray")
+        self.status_labels["controller"].config(text="Waiting", foreground="gray")
+        self.status_labels["tracking"].config(text="Passive", foreground="gray")
         
     def run(self):
         """Start the GUI application"""
@@ -391,7 +410,7 @@ class FNVRTrackerGUI:
             self.preferences['ini_path'] = filename
             self.save_preferences()
             
-            self.add_log(f"INI dosya yolu güncellendi: {filename}", "success")
+            self.add_log(f"INI file path updated: {filename}", "success")
             
     def on_smoothing_toggle(self):
         """Handle smoothing enable/disable toggle"""
@@ -405,8 +424,8 @@ class FNVRTrackerGUI:
         self.preferences['smoothing_enabled'] = enabled
         self.save_preferences()
         
-        status = "etkinleştirildi" if enabled else "devre dışı bırakıldı"
-        self.add_log(f"Veri yumuşatma {status}", "info")
+        status = "activated" if enabled else "disabled"
+        self.add_log(f"Data smoothing {status}", "info")
         
     def on_smoothing_strength_change(self, value):
         """Handle smoothing strength slider change"""
@@ -442,8 +461,8 @@ class FNVRTrackerGUI:
         self.preferences['dual_hand_enabled'] = enabled
         self.save_preferences()
         
-        status = "etkinleştirildi" if enabled else "devre dışı bırakıldı"
-        self.add_log(f"İki el modu {status}", "info")
+        status = "activated" if enabled else "disabled"
+        self.add_log(f"Two-handed mode {status}", "info")
         
     def on_hand_change(self):
         """Handle active hand selection change"""
@@ -455,8 +474,8 @@ class FNVRTrackerGUI:
         self.preferences['default_hand'] = active_hand
         self.save_preferences()
         
-        hand_name = "Sağ el" if active_hand == "right" else "Sol el"
-        self.add_log(f"Aktif el değiştirildi: {hand_name}", "info")
+        hand_name = "Right Hand" if active_hand == "right" else "Left Hand"
+        self.add_log(f"Active hand changed: {hand_name}", "info")
         
     def on_two_handed_toggle(self):
         """Handle two-handed weapon mode toggle"""
@@ -467,8 +486,8 @@ class FNVRTrackerGUI:
         self.preferences['two_handed_weapon_mode'] = enabled
         self.save_preferences()
         
-        status = "etkinleştirildi" if enabled else "devre dışı bırakıldı"
-        self.add_log(f"İki el silah modu {status}", "info")
+        status = "activated" if enabled else "disabled"
+        self.add_log(f"Two-handed weapon mode {status}", "info")
 
 
 if __name__ == "__main__":
