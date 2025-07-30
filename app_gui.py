@@ -294,16 +294,16 @@ class FNVRTrackerGUI:
             self.status_labels["steamvr"].config(text="Connected", foreground="green")
             self.status_labels["status"].config(text="Ready", foreground="green")
         elif "openvr init failed" in message_lower:
-            self.status_labels["steamvr"].config(text="Bağlanamadı", foreground="red")
+            self.status_labels["steamvr"].config(text="Could not connect", foreground="red")
             self.status_labels["status"].config(text="Error", foreground="red")
         elif "tracking started" in message_lower:
             self.status_labels["tracking"].config(text="Active", foreground="green")
-            self.status_labels["status"].config(text="Çalışıyor", foreground="green")
+            self.status_labels["status"].config(text="success", foreground="green")
         elif "tracking stopped" in message_lower:
             self.status_labels["tracking"].config(text="Stopped", foreground="gray")
             self.status_labels["status"].config(text="Stopped", foreground="gray")
         elif "hmd not connected" in message_lower:
-            self.status_labels["controller"].config(text="HMD Yok", foreground="orange")
+            self.status_labels["controller"].config(text="No HMD", foreground="orange")
         elif "tracking active" in message_lower:
             self.status_labels["controller"].config(text="Being Tracked", foreground="green")
         elif "controller found at index" in message_lower:
