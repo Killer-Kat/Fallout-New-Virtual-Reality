@@ -1,149 +1,153 @@
-# Fallout: New Virtual Reality (FNVR) Geliştirme Projesi
+This is my attempt to translate and refine the changes that were made to the original FNVR tracker by m4rmzNexus who has improved the original by chaning from a rather slow (yet impressive) INI reading to storing it in memory instead. (I was gonna do that but why do something that has already been done) Sadly I don't speak Turkish, nor I assume do most people trying to mod Fallout NV. So if you found this hopefully it will help you. 
 
-[![Lisans: MIT](https://img.shields.io/badge/Lisans-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Original readme google translated:
+This project aims to build upon the original Fallout: New Virtual Reality mod and elevate it to a level that offers a more stable, user-friendly, and "native" VR experience.
+Purpose of the Project
 
-Bu proje, orijinal [Fallout: New Virtual Reality](https://www.github.com/iloveusername/Fallout-New-Virtual-Reality) modunu temel alarak, onu daha stabil, kullanıcı dostu ve "native" bir VR deneyimi sunan bir seviyeye taşımayı hedefler.
+The current mod offers an ingenious solution for adding VR motion controls to Fallout: New Vegas . However, it requires technical know-how and has some mechanical limitations. The goal of this project is to take this foundation and expand upon it using the following principles:
 
-## Projenin Amacı
+    User-Friendly: Installation and use of the mod should be simple and straightforward even for a non-technical player.
+    Stability: The in-game experience should be smooth and error-free.
+    Immersion: Mechanics should make the player feel like they are truly immersed in the game world.
 
-Mevcut mod, VR hareket kontrollerini *Fallout: New Vegas*'a eklemek için dahiyane bir çözüm sunmaktadır. Ancak, teknik bilgi gerektiren kurulum süreci ve bazı mekaniksel sınırlamaları bulunmaktadır. Bu projenin amacı, bu temeli alıp aşağıdaki prensipler doğrultusunda geliştirmektir:
+Current Functionality
 
--   **Kullanıcı Dostu:** Modun kurulumu ve kullanımı, teknik bilgisi olmayan bir oyuncu için bile basit ve anlaşılır olmalıdır.
--   **Stabilite:** Oyun içi deneyim akıcı ve hatasız olmalıdır.
--   **Sürükleyicilik:** Mekanikler, oyuncuya gerçekten oyun dünyasının içindeymiş gibi hissettirmelidir.
+    Independent aiming with right hand controller
+    Dual-handed support - Use left and right controllers simultaneously
+    Two-handed weapon mode - Realistic two-handed wielding mechanics
+    Advanced hand gesture recognition (dwell time, velocity tracking, cooldown)
+    Easy control with graphical user interface (GUI)
+    Ultra-low latency (<1ms) with memory-mapped file support
+    Shake-free aiming with data smoothing (One Euro Filter)
+    Dynamic controller detection
+    Detailed error management and logging
 
-## Mevcut Fonksiyonellik
+Roadmap
 
--   Sağ el kontrolcüsü ile bağımsız nişan alma
--   **İki el desteği** - Sol ve sağ kontrolcüleri aynı anda kullanma
--   **İki el silah modu** - Gerçekçi iki elle tutma mekaniği
--   Gelişmiş el hareketleri tanıma (dwell time, velocity tracking, cooldown)
--   Grafik kullanıcı arayüzü (GUI) ile kolay kontrol
--   Memory-mapped file desteği ile ultra düşük gecikme (<1ms)
--   Veri yumuşatma ile titremesiz nişan alma (One Euro Filter)
--   Dinamik kontrolcü algılama
--   Detaylı hata yönetimi ve loglama
+The project will be developed in three main phases:
+✅ Phase 1: Solidifying the Foundations and User Experience (UX)
 
-## Yol Haritası (Roadmap)
+    Configuration File: Managing settings (e.g. sensitivity, file path) from outside the code.
+    Graphical Interface (GUI): A simple interface that will run the script with a single click.
+    Error Management: Clear error messages and logging.
 
-Proje, üç ana aşamada geliştirilecektir:
+✅ Phase 2: Improving Core Mechanics
 
-### ✅ Aşama 1: Temelleri Sağlamlaştırma ve Kullanıcı Deneyimi (UX)
+    IPC Boost: <1ms latency with memory-mapped files.
+    Data Smoothing: Shake-free aiming with One Euro Filter.
+    Advanced Motion Recognition: Reliable system with velocity tracking and dwell time.
 
--   [x] **Yapılandırma Dosyası:** Ayarların (örn: hassasiyet, dosya yolu) kod dışından yönetilmesi.
--   [x] **Grafiksel Arayüz (GUI):** Betiği tek tıkla çalıştıracak basit bir arayüz.
--   [x] **Hata Yönetimi:** Anlaşılır hata mesajları ve loglama.
+✨ Phase 3: New Features and Depth
 
-### ✅ Aşama 2: Çekirdek Mekanikleri İyileştirme
+    Realistic Melee: Melee mechanics based on swing speed.
+    Left Hand Support: For two-handed weapons and other interactions.
+    Haptic Feedback: Vibration when shooting or taking damage.
+    Physical Reload: Manual reload movements that increase immersion.
 
--   [x] **IPC Güçlendirmesi:** Memory-mapped files ile <1ms gecikme.
--   [x] **Veri Yumuşatma:** One Euro Filter ile titremesiz nişan alma.
--   [x] **Gelişmiş Hareket Tanıma:** Velocity tracking ve dwell time ile güvenilir sistem.
+Setup
+System Requirements
 
-### ✨ Aşama 3: Yeni Özellikler ve Derinlik
+    Python >= 3.11
+    SteamVR
+    VR headsets and controllers (HTC Vive, Valve Index, Oculus, etc.)
+    Fallout: New Vegas (Steam version)
+    VorpX
 
--   [ ] **Gerçekçi Melee:** Savurma hızına dayalı yakın dövüş mekaniği.
--   [x] **Sol El Desteği:** Çift el silahlar ve diğer etkileşimler için.
--   [ ] **Haptik Geri Bildirim:** Ateş etme, hasar alma gibi olaylarda titreşim.
--   [ ] **Fiziksel Şarjör Değiştirme:** Sürükleyiciliği artıran manuel doldurma hareketleri.
+Installation Steps
+Install Python (3.11 or later)
+Install dependencies:
 
-## Kurulum
+pip install -r requirements.txt
 
-### Sistem Gereksinimleri
--   Python >= 3.11
--   SteamVR
--   VR başlık ve kontrolcüler (HTC Vive, Valve Index, Oculus vb.)
--   Fallout: New Vegas (Steam sürümü)
--   VorpX
+config.iniconfigure file:
 
-### Kurulum Adımları
+    ini_file_pathSet the value to your own Fallout New Vegas installation directory
+    Example:E:/SteamLibrary/steamapps/common/Fallout New Vegas/Data/Config/Meh.ini
+    If you want to use MMAP, mmap_file_pathalso set its value
 
-1.  **Python'u yükleyin** (3.11 veya üzeri)
-2.  **Bağımlılıkları yükleyin:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-3.  **`config.ini` dosyasını yapılandırın:**
-    - `ini_file_path` değerini kendi Fallout New Vegas kurulum dizininize göre ayarlayın
-    - Örnek: `E:/SteamLibrary/steamapps/common/Fallout New Vegas/Data/Config/Meh.ini`
-    - MMAP kullanmak isterseniz `mmap_file_path` değerini de ayarlayın
-4.  **SteamVR'ı başlatın**
-5.  **Tracker'ı çalıştırın:**
-    ```bash
-    python FNVR_Tracker.py
-    ```
-6.  **GUI'de şu adımları izleyin:**
-    - INI dosya yolunu kontrol edin (gerekirse "Gözat" ile değiştirin)
-    - İsterseniz "El Seçimi" bölümünden ayarları yapın:
-      - **Tek el modu:** Varsayılan, sadece seçili el takip edilir
-      - **İki el modu:** Her iki kontrolcü de takip edilir
-      - **İki el silah modu:** İki el modu aktifken kullanılabilir
-    - "Başlat" butonuna tıklayın
-7.  **Oyunu VorpX ile başlatın**
+Start SteamVR
+Run the tracker:
 
-### Yapılandırma (config.ini)
+python FNVR_Tracker.py
 
-Mod artık tüm ayarları `config.ini` dosyasından okumaktadır. Bu dosya şu bölümleri içerir:
-- **[paths]**: INI dosya yolu
-- **[position_scaling]**: Pozisyon ölçekleme ve ofset değerleri
-- **[rotation_scaling]**: Rotasyon ölçekleme ve ofset değerleri
-- **[pipboy_position]**: Pipboy için sabit pozisyon değerleri
-- **[pipboy_gesture]**: Pipboy açma hareketi ayarları
-- **[pause_menu_gesture]**: Pause menüsü açma hareketi ayarları
-- **[timing]**: Zamanlama ayarları (döngü gecikmesi, tuş basma süreleri)
-- **[communication]**: İletişim yöntemi (mmap/ini) ve MMAP dosya yolu
-- **[smoothing]**: Veri yumuşatma ayarları (filtre tipi, güç)
-- **[gesture_recognition]**: Gelişmiş hareket tanıma (dwell time, cooldown, velocity)
-- **[dual_hand]**: İki el desteği ayarları
+    In the GUI, follow these steps:
+        Check the INI file path (change it with "Browse" if necessary)
+        If desired, adjust the settings in the "Hand Selection" section:
+            One-handed mode: Default, only the selected hand is tracked
+            Two-handed mode: Both controllers are tracked
+            Two-handed weapon mode: Can be used while two-handed mode is active
+        Click the "Start" button
+    Start the game with VorpX
 
-### GUI Kullanımı
+Configuration (config.ini)
 
-#### Ana Kontroller
-- **Başlat/Durdur**: VR takibini başlatır veya durdurur
-- **INI Dosya Yolu**: Oyunun INI dosyasını seçmenizi sağlar
+The mod now config.inireads all settings from its file. This file contains the following sections:
 
-#### El Seçimi
-- **İki El Modunu Etkinleştir**: Her iki kontrolcüyü de takip eder
-- **Aktif El**: Tek el modunda hangi elin kullanılacağını seçer
-- **İki El Silah Modu**: İki elle tutma mekaniğini etkinleştirir (sadece iki el modunda)
+    [paths] : INI file path
+    [position_scaling] : Position scaling and offset values
+    [rotation_scaling] : Rotation scaling and offset values
+    [pipboy_position] : Fixed position values for pipboy
+    [pipboy_gesture] : Pipboy opening gesture settings
+    [pause_menu_gesture] : Pause menu opening gesture settings
+    [timing] : Timing settings (loop delay, key press times)
+    [communication] : Communication method (mmap/ini) and MMAP file path
+    [smoothing] : Data smoothing settings (filter type, strength)
+    [gesture_recognition] : Advanced gesture recognition (dwell time, cooldown, velocity)
+    [dual_hand] : Two-handed support settings
 
-#### Yumuşatma Ayarları
-- **Veri Yumuşatmayı Etkinleştir**: Titreme azaltma sistemini açar/kapar
-- **Yumuşatma Gücü**: Ne kadar yumuşatma uygulanacağını ayarlar (0.1-5.0)
+GUI Usage
+Ana Controls
 
-#### Durum Göstergeleri
-- **Durum**: Genel sistem durumu
-- **SteamVR**: VR bağlantı durumu
-- **Kontrolcü**: Kontrolcü bağlantı ve takip durumu
-- **Takip**: Aktif takip durumu
+    Start/Stop : Starts or stops VR tracking
+    INI File Path : Allows you to select the game's INI file
 
-### Performans
+Hand Pick
 
-Memory-mapped file (MMAP) modu etkinleştirildiğinde:
-- **INI dosya yazma**: ~10-20ms
-- **MMAP yazma**: <1ms
-- **Performans artışı**: 10-20x
+    Enable Two-Handed Mode : Tracks both controllers
+    Active Hand : Selects which hand to use in one-handed mode.
+    Two-Handed Weapon Mode : Enables two-handed wielding mechanics (only in two-handed mode)
 
-### İki El Modu Özellikleri
+Smoothing Settings
 
-#### Tek El Modu (Varsayılan)
-- Sadece seçili el (sağ veya sol) takip edilir
-- Diğer el yok sayılır
-- Daha az işlemci kullanımı
+    Enable Data Smoothing : Turns on/off the jitter reduction system
+    Smoothing Strength : Adjusts how much smoothing is applied (0.1-5.0)
 
-#### İki El Modu
-- Her iki kontrolcü de algılanır ve takip edilir
-- Gelecekte iki elle etkileşim özellikleri için altyapı
-- İki el silah modu etkinleştirilebilir
+Status Indicators
 
-#### İki El Silah Modu
-- İki kontrolcü arasındaki mesafe hesaplanır
-- Eller belirli mesafede olduğunda silah iki elle tutulmuş gibi davranır
-- Daha stabil nişan alma sağlar
-- Min/max mesafe config'den ayarlanabilir
+    Status : General system status
+    SteamVR : VR connection status
+    Controller : Controller connection and tracking status
+    Tracking : Active tracking status
 
-Detaylı bilgi ve geliştirme planı için `docs` klasörünü inceleyebilirsiniz.
+Performance
 
-## Katkıda Bulunma
+When memory-mapped file (MMAP) mode is enabled:
 
-Proje açıktır ve katkılarınızı bekliyoruz. Lütfen bir "issue" açarak veya "pull request" göndererek sürece dahil olun.
+    INI file writing : ~10-20ms
+    MMAP write : <1ms
+    Performance increase : 10-20x
+
+Two-Handed Mode Features
+One-Handed Mode (Default)
+
+    Only the selected hand (right or left) is tracked
+    The other hand is ignored
+    Less processor usage
+
+Two-Handed Mode
+
+    Both controllers are detected and tracked
+    Infrastructure for future two-handed interaction features
+    Two-handed weapon mode can be activated
+
+Two-Handed Weapon Mode
+
+    The distance between two controllers is calculated
+    When the hands are at a certain distance, the gun behaves as if it were held with two hands.
+    Provides more stable aiming
+    Min/max distance can be set from config
+
+You can review the folder for detailed information and development plan docs.
+Contribute
+
+The project is open and we welcome your contributions. Please get involved by opening an issue or submitting a pull request.
