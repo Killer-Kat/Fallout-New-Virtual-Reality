@@ -1,4 +1,7 @@
-This is my attempt to translate and refine the changes that were made to the original FNVR tracker by m4rmzNexus who has improved the original by chaning from a rather slow (yet impressive) INI reading to storing it in memory instead. (I was gonna do that but why do something that has already been done) Sadly I don't speak Turkish, nor I assume do most people trying to mod Fallout NV. So if you found this hopefully it will help you. 
+This is my attempt to translate and refine the changes that were made to the original FNVR tracker by m4rmzNexus who has improved the original by changing from a rather slow (yet impressive) INI reading to storing it in memory instead. (I was gonna do that but why do something that has already been done) Sadly I don't speak Turkish, nor I assume do most people trying to mod Fallout NV. So if you found this hopefully it will help you. 
+
+
+If I can get it functioning and wrap my head arround it perhaps I will also add some improvements under the hood.
 
 Original readme google translated:
 This project aims to build upon the original Fallout: New Virtual Reality mod and elevate it to a level that offers a more stable, user-friendly, and "native" VR experience.
