@@ -394,9 +394,9 @@ class FNVRTrackerGUI:
             initial_dir = "C:/"
             
         filename = filedialog.askopenfilename(
-            title="Fallout New Vegas INI Dosyasını Seçin",
+            title="Select Fallout New Vegas INI File",
             initialdir=initial_dir,
-            filetypes=[("INI dosyaları", "*.ini"), ("Tüm dosyalar", "*.*")]
+            filetypes=[("INI files", "*.ini"), ("All files", "*.*")]
         )
         
         if filename:
